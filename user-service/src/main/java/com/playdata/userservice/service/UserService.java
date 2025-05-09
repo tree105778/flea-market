@@ -37,14 +37,12 @@ public class UserService {
         log.info("user 정보 저장 완료");
     }
 
-    public String login(LoginForm loginForm) {
+    public User login(LoginForm loginForm) {
         User user = userRepository.findByEmail(loginForm.getEmail()).orElseThrow(() -> new EntityNotFoundException("User Not Found"));
 
         if (!encoder.matches(loginForm.getPassword(), user.getPassword()))
             throw new IllegalArgumentException("password does not match");
 
-        String token = jwtTokenProvider.createToken(user.getName(), user.getEmail());
-
-        return token;
+        return user;
     }
 }

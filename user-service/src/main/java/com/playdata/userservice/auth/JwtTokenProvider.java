@@ -3,6 +3,7 @@ package com.playdata.userservice.auth;
 import com.playdata.userservice.dto.TokenUserInfo;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,6 +36,18 @@ public class JwtTokenProvider {
                 .setIssuedAt(now)
                 .setExpiration(new Date(now.getTime() + expiration * 60 * 1000))
                 .signWith(Keys.hmacShaKeyFor(secretKey.getBytes()))
+                .compact();
+    }
+
+    public String createRefreshToken(String email, String role){
+        Claims claims = Jwts.claims().setSubject(email);
+        claims.put("role", role);
+        Date now = new Date();
+        return Jwts.builder()
+                .setClaims(claims)
+                .setIssuedAt(now)
+                .setExpiration(new Date(now.getTime() + expirationRt * 60 * 1000))
+                .signWith(SignatureAlgorithm.HS256, secretKeyRt)
                 .compact();
     }
 
