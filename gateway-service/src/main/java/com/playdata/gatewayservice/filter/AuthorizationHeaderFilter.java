@@ -24,6 +24,10 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
     @Value("${jwt.secretKey}")
     private String secretKey;
 
+    public AuthorizationHeaderFilter() {
+        super(Config.class);
+    }
+
     @Override
     public GatewayFilter apply(Config config) {
         return (exchange, chain) -> {
