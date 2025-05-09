@@ -61,5 +61,10 @@ public class UserController {
                         .build()
         );
     }
-    
+
+    @GetMapping("/test")
+    public TokenUserInfo userTest(@AuthenticationPrincipal TokenUserInfo userInfo) {
+        return userInfo;
+    }
+
 }
