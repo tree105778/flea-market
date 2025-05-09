@@ -47,6 +47,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     private String parseBearerToken(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
 
+        log.info("bearerToken: {}", bearerToken);
         if (bearerToken != null && bearerToken.startsWith("Bearer")) {
             return bearerToken.replace("Bearer ", "");
         }
@@ -55,6 +56,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     private TokenUserInfo validateJwt(String token) {
         try {
+            log.info("token 검증 진행 전");
             return jwtTokenProvider.validateAndParse(token);
         } catch (Exception e) {
             return null;
