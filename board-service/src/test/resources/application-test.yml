@@ -1,0 +1,11 @@
+spring:
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+    defer-datasource-initialization: true
+  datasource:
+    url: jdbc:mysql://flea-market-back-db.cn2sey2iw98e.ap-northeast-2.rds.amazonaws.com:3306/backend_db
+    username: root
+    password: nvTm+J$0EqHs^kjk
+    driver-class-name: com.mysql.cj.jdbc.Driver

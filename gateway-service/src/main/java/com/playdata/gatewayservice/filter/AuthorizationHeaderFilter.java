@@ -46,6 +46,7 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
             ServerHttpRequest request = exchange.getRequest()
                     .mutate()
                     .header("X-User-Email", claims.getSubject())
+                    .header("X-User-Name", claims.get("name", String.class))
                     .build();
 
             return chain.filter(exchange.mutate().request(request).build());
