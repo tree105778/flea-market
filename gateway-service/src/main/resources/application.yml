@@ -17,3 +17,11 @@ spring:
           uri: lb:ws://CHAT-SERVICE
           predicates:
             - Path=/ws-stomp/**
+
+        - id: board-service
+          uri: lb://BOARD-SERVICE
+          predicates:
+            - Path=/board-service/**
+          filters:
+            - RewritePath=/board-service/(?<segment>.*), /$\{segment}
+            - AuthorizationHeaderFilter
