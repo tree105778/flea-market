@@ -3,8 +3,10 @@ package com.playdata.productservice.service;
 import com.playdata.productservice.dto.ProductRequestDto;
 import com.playdata.productservice.dto.ProductResponseDto;
 import com.playdata.productservice.entity.Product;
+import com.playdata.productservice.entity.ProductStatus;
 import com.playdata.productservice.exception.ProductNotFoundException;
 import com.playdata.productservice.repository.ProductRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,7 +45,7 @@ public class ProductService {
                 .price(price)
                 .category(requestDto.getCategory())
                 .imageUrl(imageUrl)
-                .status("판매중")
+                .status(ProductStatus.ON_SALE)
                 .build();
 
         Product savedProduct = productRepository.save(product);
@@ -103,5 +105,16 @@ public class ProductService {
                 .imageUrl(product.getImageUrl())
                 .status(product.getStatus())
                 .build();
+    }
+
+    @Transactional
+    public ProductResponseDto updateSoldOut(Long productId) {
+        Product foundProduct = productRepository.findById(productId).orElseThrow(
+                () -> new EntityNotFoundException("product not found")
+        );
+
+        foundProduct.setStatus(ProductStatus.SOLD_OUT);
+
+        return mapToResponseDto(foundProduct);
     }
 }

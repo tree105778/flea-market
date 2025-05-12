@@ -1,5 +1,6 @@
 package com.playdata.productservice.dto;
 
+import com.playdata.productservice.entity.ProductStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,5 +17,5 @@ public class ProductResponseDto {
     private String description;
     private String category;
     private String imageUrl;
-    private String status; // 판매중, 판매완료 등
+    private ProductStatus status; // 판매중, 판매완료 등
 }
