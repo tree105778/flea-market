@@ -5,6 +5,10 @@ plugins {
 
 }
 
+ext {
+    springCloudVersion = "2024.0.1"
+}
+
 group = 'com.playdata'
 version = '0.0.1-SNAPSHOT'
 
@@ -44,6 +48,9 @@ dependencies {
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 
+    // Feign 클라이언트
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+
     // H2 데이터베이스 (개발용)
     runtimeOnly 'com.h2database:h2'
 
@@ -58,6 +65,12 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion"
+    }
 }
 
 tasks.named('test') {
