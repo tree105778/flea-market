@@ -30,6 +30,8 @@ public class Product {
 
     private String imageUrl;
 
-    @Column(nullable = false)
-    private String status = "판매중"; // 기본값 "판매중"
+    @Enumerated(EnumType.STRING)
+    private ProductStatus status;
+
+
 }

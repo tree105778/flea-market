@@ -1,7 +1,6 @@
 package com.playdata.transactionservice.entity;
 
-public enum TransactionStatus {
-    PENDING,
+public enum TradeStatus {
     COMPLETED,
     CANCELLED,
 }

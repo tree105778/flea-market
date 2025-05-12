@@ -2,7 +2,6 @@ package com.playdata.transactionservice.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 
@@ -11,7 +10,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Transaction {
+public class Trade {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +21,7 @@ public class Transaction {
     private int amount;
 
     @Enumerated(EnumType.STRING)
-    private TransactionStatus status;
+    private TradeStatus status;
 
     private LocalDateTime createTime;
 

@@ -73,4 +73,10 @@ public class ProductController {
 
         return ResponseEntity.ok(response);
     }
+
+    @PutMapping("/{prodId}")
+    public Long updateProduct(@PathVariable("prodId") Long prodId) {
+        return productService.updateStatus(prodId);
+
+    }
 }
