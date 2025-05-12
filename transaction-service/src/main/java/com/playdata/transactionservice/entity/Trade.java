@@ -1,7 +1,9 @@
 package com.playdata.transactionservice.entity;
 
+import com.playdata.transactionservice.dto.TradeResDto;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 
@@ -16,14 +18,22 @@ public class Trade {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long userId;
+    private String userName;
     private Long productId;
-    private int amount;
 
     @Enumerated(EnumType.STRING)
-    private TradeStatus status;
+    @Builder.Default
+    private TradeStatus status = TradeStatus.COMPLETED;
 
+    @CreatedDate
     private LocalDateTime createTime;
 
+    public TradeResDto fromEntity() {
+        return TradeResDto.builder()
+                .productId(productId)
+                .userName(userName)
+                .dateTime(createTime)
+                .build();
+    }
 
 }
