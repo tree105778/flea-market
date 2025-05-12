@@ -23,7 +23,10 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
-	implementation 'org.projectlombok:lombok'
+
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 
 	// config-service로부터 공통 설정 받기 위해서 추가하는 라이브러리
