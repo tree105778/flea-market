@@ -1,4 +1,6 @@
 package com.playdata.productservice.controller;
+import com.playdata.productservice.dto.ProductClientDto;
+import com.playdata.productservice.entity.Product;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -85,5 +87,10 @@ public class ProductController {
                 .build();
 
         return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/create")
+    public Long createProduct(@RequestBody ProductClientDto productClientDto) {
+        return productService.createProduct(productClientDto);
     }
 }

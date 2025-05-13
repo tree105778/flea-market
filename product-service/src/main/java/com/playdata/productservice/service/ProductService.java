@@ -1,5 +1,6 @@
 package com.playdata.productservice.service;
 
+import com.playdata.productservice.dto.ProductClientDto;
 import com.playdata.productservice.dto.ProductRequestDto;
 import com.playdata.productservice.dto.ProductResponseDto;
 import com.playdata.productservice.entity.Product;
@@ -10,12 +11,14 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -36,12 +39,11 @@ public class ProductService {
         }
 
         // 문자열 가격을 정수로 변환
-        Integer price = Integer.parseInt(requestDto.getPrice());
+        Long price = Long.parseLong(requestDto.getPrice());
 
         // 상품 엔티티 생성 및 저장
         Product product = Product.builder()
                 .title(requestDto.getTitle())
-                .description(requestDto.getDescription())
                 .price(price)
                 .category(requestDto.getCategory())
                 .imageUrl(imageUrl)
@@ -116,5 +118,23 @@ public class ProductService {
         foundProduct.setStatus(ProductStatus.SOLD_OUT);
 
         return mapToResponseDto(foundProduct);
+    }
+
+
+    @Transactional
+    public Long createProduct(@RequestBody ProductClientDto productClientDto) {
+
+        Product product = Product.builder()
+                .title(productClientDto.getTitle())
+                .userEmail(productClientDto.getUserEmail())
+                .category(productClientDto.getCategory())
+                .price(productClientDto.getPrice())
+                .imageUrl(String.join(",", productClientDto.getImage()))
+                .createTime(LocalDateTime.now())
+                .updateTime(LocalDateTime.now())
+                .build();
+
+        Product saveProduct = productRepository.save(product);
+        return saveProduct.getId();
     }
 }

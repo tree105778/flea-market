@@ -3,7 +3,7 @@ package com.playdata.boardservice.service;
 import com.playdata.boardservice.client.ProductServiceClient;
 import com.playdata.boardservice.common.auth.TokenUserInfo;
 import com.playdata.boardservice.common.config.AwsS3Config;
-import com.playdata.boardservice.common.dto.ProductReqDto;
+import com.playdata.boardservice.common.dto.ProductClientDto;
 import com.playdata.boardservice.dto.BoardFormReqDto;
 import com.playdata.boardservice.dto.BoardResDto;
 import com.playdata.boardservice.dto.DetailBoardResDto;
@@ -62,14 +62,15 @@ public class BoardService {
 
         savedTags.forEach(tag -> board.getTags().add(new BoardTag(board, tag)));
 
-        ProductReqDto productReqDto = ProductReqDto.builder()
+        ProductClientDto productClientDto = ProductClientDto.builder()
                 .title(reqDto.getTitle())
                 .price(reqDto.getPrice())
+                .userEmail(tokenUserInfo.getEmail())
                 .category(reqDto.getCategory())
                 .image(imageUrls)
                 .build();
 
-        Long productId = productServiceClient.createProduct(productReqDto);
+        Long productId = productServiceClient.createProduct(productClientDto);
 
         board.setProductId(productId);
 

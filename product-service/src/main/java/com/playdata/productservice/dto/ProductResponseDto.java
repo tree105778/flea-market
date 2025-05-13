@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class ProductResponseDto {
     private Long id;
     private String title;
-    private Integer price;
+    private Long price;
     private String description;
     private String category;
     private String imageUrl;

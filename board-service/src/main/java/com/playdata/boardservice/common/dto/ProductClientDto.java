@@ -11,10 +11,11 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ProductReqDto {
+public class ProductClientDto {
 
     private String title;
     private Long price;
+    private String userEmail;
     private String category;
     private List<String> image;
 
