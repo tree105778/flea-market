@@ -1,6 +1,7 @@
 package com.playdata.transactionservice.common.config;
 
-import com.playdata.boardservice.common.auth.JwtAuthFilter;
+
+import com.playdata.transactionservice.common.auth.JwtAuthFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
