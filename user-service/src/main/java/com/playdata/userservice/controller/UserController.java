@@ -76,9 +76,12 @@ public class UserController {
     @PostMapping("/refresh")
     public ResponseEntity<?> refreshToken(@RequestBody Map<String, String> map) {
         String id = map.get("id");
+        log.info("userId: {}", id);
         String refreshToken = map.get("refreshToken");
+        log.info("refreshToken: {}", refreshToken);
 
         String obj = redisTemplate.opsForValue().get("user:refresh:" + id);
+        log.info("obj: {}", obj);
         if (obj == null || !obj.equals(refreshToken)) {
             return new ResponseEntity<>(new CommonResDto(
                     HttpStatus.UNAUTHORIZED.value(), "EXPIRED_AT", HttpStatus.UNAUTHORIZED),

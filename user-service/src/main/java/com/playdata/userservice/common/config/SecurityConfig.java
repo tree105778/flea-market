@@ -1,4 +1,4 @@
-package com.playdata.userservice.config;
+package com.playdata.userservice.common.config;
 
 import com.playdata.userservice.auth.JwtAuthFilter;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +25,7 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable);
         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.authorizeHttpRequests(auth -> {
-            auth.requestMatchers("/user/signup", "/user/login").permitAll()
+            auth.requestMatchers("/user/signup", "/user/login", "/user/refresh").permitAll()
                     .anyRequest().authenticated();
         });
 
