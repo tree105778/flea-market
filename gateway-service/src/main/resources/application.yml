@@ -5,6 +5,21 @@ spring:
     name: gateway-service
   cloud:
     gateway:
+      globalcors:
+        cors-configurations:
+          "[/**]":
+            allowed-origins:
+              - "http://localhost:5173"
+            allowed-methods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - PATCH
+              - OPTIONS
+            allowed-headers: '*'
+            allow-credentials: true
+
       routes:
         - id: user-service
           uri: lb://USER-SERVICE
@@ -16,7 +31,7 @@ spring:
         - id: chat-service
           uri: lb:ws://CHAT-SERVICE
           predicates:
-            - Path=/ws-stomp/**
+            - Path=/ws/**
 
         - id: board-service
           uri: lb://BOARD-SERVICE

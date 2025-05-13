@@ -15,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @RestController
@@ -53,18 +55,41 @@ public class UserController {
 
         redisTemplate.opsForValue().set("user:refresh:" + user.getId(), refreshToken, 2, TimeUnit.MINUTES);
 
+        Map<String, Object> loginInfo = new HashMap<>();
+
+        loginInfo.put("id", user.getId());
+        loginInfo.put("email", user.getEmail());
+        loginInfo.put("name", user.getName());
+        loginInfo.put("token", token);
+        loginInfo.put("refreshToken", refreshToken);
+
         return ResponseEntity.ok(
-                CommonResDto.<String>builder()
-                        .statusCode(HttpStatus.OK.value())
-                        .statusMessage("로그인 완료")
-                        .result(token) // JWT 토큰 반환
-                        .build()
+                new CommonResDto<Map<String, Object>>(HttpStatus.OK.value(), "로그인 완료", loginInfo)
         );
     }
 
     @GetMapping("/test")
     public TokenUserInfo userTest(@AuthenticationPrincipal TokenUserInfo userInfo) {
         return userInfo;
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<?> refreshToken(@RequestBody Map<String, String> map) {
+        String id = map.get("id");
+        String refreshToken = map.get("refreshToken");
+
+        String obj = redisTemplate.opsForValue().get("user:refresh:" + id);
+        if (obj == null || !obj.equals(refreshToken)) {
+            return new ResponseEntity<>(new CommonResDto(
+                    HttpStatus.UNAUTHORIZED.value(), "EXPIRED_AT", HttpStatus.UNAUTHORIZED),
+                    HttpStatus.UNAUTHORIZED
+            );
+        }
+
+        String accessToken = jwtTokenProvider.createToken(map.get("name"), map.get("email"));
+        map.replace("token", accessToken);
+
+        return ResponseEntity.ok().body(new CommonResDto<>(HttpStatus.OK.value(), "새 토큰 발급됨", map));
     }
 
 }
