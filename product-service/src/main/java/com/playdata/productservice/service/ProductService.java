@@ -130,6 +130,7 @@ public class ProductService {
                 .category(productClientDto.getCategory())
                 .price(productClientDto.getPrice())
                 .imageUrl(String.join(",", productClientDto.getImage()))
+                .status(ProductStatus.ON_SALE)
                 .createTime(LocalDateTime.now())
                 .updateTime(LocalDateTime.now())
                 .build();
