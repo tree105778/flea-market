@@ -53,7 +53,7 @@ public class UserController {
         String refreshToken
                 = jwtTokenProvider.createRefreshToken(user.getEmail(), user.getName());
 
-        redisTemplate.opsForValue().set("user:refresh:" + user.getId(), refreshToken, 2, TimeUnit.MINUTES);
+        redisTemplate.opsForValue().set("user:refresh:" + user.getId(), refreshToken, 2, TimeUnit.DAYS);
 
         Map<String, Object> loginInfo = new HashMap<>();
 
@@ -76,7 +76,9 @@ public class UserController {
     @PostMapping("/refresh")
     public ResponseEntity<?> refreshToken(@RequestBody Map<String, String> map) {
         String id = map.get("id");
-        log.info("userId: {}", id);
+        String email = map.get("email");
+        String name = map.get("name");
+        log.info("userId: {}, email: {}, name: {}", id, email, name);
         String refreshToken = map.get("refreshToken");
         log.info("refreshToken: {}", refreshToken);
 
@@ -89,7 +91,9 @@ public class UserController {
             );
         }
 
-        String accessToken = jwtTokenProvider.createToken(map.get("name"), map.get("email"));
+        map.put("token", map.get("token"));
+
+        String accessToken = jwtTokenProvider.createToken(name, email);
         map.replace("token", accessToken);
 
         return ResponseEntity.ok().body(new CommonResDto<>(HttpStatus.OK.value(), "새 토큰 발급됨", map));

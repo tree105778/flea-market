@@ -57,6 +57,9 @@ public class BoardService {
                 .price(reqDto.getPrice())
                 .userEmail(tokenUserInfo.getEmail())
                 .userName(tokenUserInfo.getName())
+                .sido(reqDto.getSido())
+                .sigungu(reqDto.getSigungu())
+                .dong(reqDto.getDong())
                 .imageUrl(imageUrls.get(0))
                 .build();
 

@@ -102,7 +102,6 @@ public class ProductService {
                 .id(product.getId())
                 .title(product.getTitle())
                 .price(product.getPrice())
-                .description(product.getDescription())
                 .category(product.getCategory())
                 .imageUrl(product.getImageUrl())
                 .status(product.getStatus())

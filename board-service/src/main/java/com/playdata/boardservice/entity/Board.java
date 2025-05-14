@@ -36,6 +36,12 @@ public class Board {
     @Lob
     private String content;
 
+    private String sido;
+
+    private String sigungu;
+
+    private String dong;
+
     private String title;
 
     private String category;

@@ -17,6 +17,9 @@ public class BoardFormReqDto {
     private Long price;
     private String content;
     private String category;
+    private String sido;
+    private String sigungu;
+    private String dong;
     private List<String> tags;
 
 }
