@@ -5,6 +5,7 @@ import com.playdata.boardservice.common.auth.TokenUserInfo;
 import com.playdata.boardservice.common.config.AwsS3Config;
 import com.playdata.boardservice.common.dto.ProductClientDto;
 import com.playdata.boardservice.dto.BoardFormReqDto;
+import com.playdata.boardservice.dto.BoardListResDto;
 import com.playdata.boardservice.dto.BoardResDto;
 import com.playdata.boardservice.dto.DetailBoardResDto;
 import com.playdata.boardservice.entity.Board;
@@ -15,6 +16,7 @@ import com.playdata.boardservice.repository.TagRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AuthorizationServiceException;
 import org.springframework.stereotype.Service;
@@ -112,9 +114,13 @@ public class BoardService {
 
     }
 
-    public List<BoardResDto> getBoardList(Pageable pageable) {
-        List<Board> boardList = boardRepository.findAll(pageable).getContent();
+    public BoardListResDto getBoardList(Pageable pageable) {
+        Page<Board> boardList = boardRepository.findAll(pageable);
 
-        return boardList.stream().map(Board::fromEntity).toList();
+        return BoardListResDto.builder()
+                .totalPage(boardList.getTotalPages())
+                .totalElement(boardList.getTotalElements())
+                .boards(boardList.getContent().stream().map(Board::fromEntity).toList())
+                .build();
     }
 }

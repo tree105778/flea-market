@@ -12,6 +12,7 @@ import java.util.List;
 @Builder
 public class BoardResDto {
 
+    private Long boardId;
     private String title;
     private Long price;
     private String imageUrl;

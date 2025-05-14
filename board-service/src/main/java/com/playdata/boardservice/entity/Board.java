@@ -63,6 +63,7 @@ public class Board {
 
     public BoardResDto fromEntity() {
         return BoardResDto.builder()
+                .boardId(id)
                 .title(title)
                 .price(price)
                 .imageUrl(imageUrl)

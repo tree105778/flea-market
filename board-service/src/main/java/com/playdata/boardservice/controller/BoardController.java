@@ -3,6 +3,7 @@ package com.playdata.boardservice.controller;
 import com.playdata.boardservice.common.auth.TokenUserInfo;
 import com.playdata.boardservice.common.dto.CommonResDto;
 import com.playdata.boardservice.dto.BoardFormReqDto;
+import com.playdata.boardservice.dto.BoardListResDto;
 import com.playdata.boardservice.dto.BoardResDto;
 import com.playdata.boardservice.dto.DetailBoardResDto;
 import com.playdata.boardservice.service.BoardService;
@@ -49,10 +50,10 @@ public class BoardController {
     }
 
     @GetMapping("/boards")
-    public ResponseEntity<CommonResDto<List<BoardResDto>>> getBoardList(Pageable pageable) {
-        List<BoardResDto> boardList = boardService.getBoardList(pageable);
+    public ResponseEntity<CommonResDto<BoardListResDto>> getBoardList(Pageable pageable) {
+        BoardListResDto boardList = boardService.getBoardList(pageable);
 
-        CommonResDto<List<BoardResDto>> resDto = new CommonResDto<>(HttpStatus.OK.value(), "게시글 전체 조회 완료", boardList);
+        CommonResDto<BoardListResDto> resDto = new CommonResDto<>(HttpStatus.OK.value(), "게시글 전체 조회 완료", boardList);
 
         return ResponseEntity.ok().body(resDto);
     }
