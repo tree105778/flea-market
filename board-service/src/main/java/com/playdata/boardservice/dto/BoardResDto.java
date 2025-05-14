@@ -10,6 +10,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@ToString
 public class BoardResDto {
 
     private Long boardId;
@@ -17,6 +18,9 @@ public class BoardResDto {
     private Long price;
     private String imageUrl;
     private String category;
+    private String sido;
+    private String sigungu;
+    private String dong;
     private List<String> tags;
     private LocalDateTime date;
 

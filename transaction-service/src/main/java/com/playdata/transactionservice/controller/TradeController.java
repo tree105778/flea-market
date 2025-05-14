@@ -5,21 +5,22 @@ import com.playdata.transactionservice.dto.TradeReqDto;
 import com.playdata.transactionservice.dto.TradeResDto;
 import com.playdata.transactionservice.service.TradeService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-@RestController("/trade")
+@RestController
+@RequestMapping("/trade")
 @RequiredArgsConstructor
+@Slf4j
 public class TradeController {
 
     private final TradeService tradeService;
 
     @PostMapping
     public ResponseEntity<CommonResDto<TradeResDto>> startTrade(@RequestBody TradeReqDto tradeReqDto) {
+        log.info("boardId: {}, userName: {}", tradeReqDto.getBoardId(), tradeReqDto.getUserName());
         TradeResDto tradeResDto = tradeService.startTrade(tradeReqDto);
 
         CommonResDto<TradeResDto> resDto = new CommonResDto<TradeResDto>(HttpStatus.CREATED.value(), "거래 완료됨", tradeResDto);

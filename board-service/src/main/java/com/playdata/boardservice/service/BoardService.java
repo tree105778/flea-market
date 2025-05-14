@@ -11,6 +11,7 @@ import com.playdata.boardservice.dto.DetailBoardResDto;
 import com.playdata.boardservice.entity.Board;
 import com.playdata.boardservice.entity.BoardTag;
 import com.playdata.boardservice.entity.Tag;
+import com.playdata.boardservice.entity.TradeStatus;
 import com.playdata.boardservice.repository.BoardRepository;
 import com.playdata.boardservice.repository.TagRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -103,24 +104,44 @@ public class BoardService {
 
         return DetailBoardResDto.builder()
                 .userName(foundBoard.getUserName())
+                .status(foundBoard.getStatus())
                 .title(foundBoard.getTitle())
                 .price(foundBoard.getPrice())
                 .content(foundBoard.getContent())
                 .tags(foundBoard.getTags().stream().map(boardTag -> boardTag.getTag().getName()).toList())
+                .sido(foundBoard.getSido())
+                .sigungu(foundBoard.getSigungu())
+                .dong(foundBoard.getDong())
                 .category(foundBoard.getCategory())
                 .imageUrl(foundBoard.getImageUrl())
                 .date(foundBoard.getUpdatedAt())
                 .build();
-
     }
 
     public BoardListResDto getBoardList(Pageable pageable) {
         Page<Board> boardList = boardRepository.findAll(pageable);
 
+        for(var board: boardList.getContent()) {
+            log.info("board: {}", board.fromEntity());
+        }
         return BoardListResDto.builder()
                 .totalPage(boardList.getTotalPages())
                 .totalElement(boardList.getTotalElements())
                 .boards(boardList.getContent().stream().map(Board::fromEntity).toList())
                 .build();
+    }
+
+    public List<BoardResDto> getUserBoardList(String userName) {
+        List<Board> foundUserBoard = boardRepository.findByUserName(userName);
+
+        return foundUserBoard.stream().map(Board::fromEntity).toList();
+    }
+
+    public Long updateBoardStatus(Long boardId) {
+        Board foundBoard = boardRepository.findById(boardId).orElseThrow(() -> new EntityNotFoundException(boardId + " board is not found"));
+
+        foundBoard.setStatus(TradeStatus.SOLD_OUT);
+
+        return foundBoard.getId();
     }
 }

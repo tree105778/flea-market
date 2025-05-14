@@ -40,3 +40,10 @@ spring:
           filters:
             - RewritePath=/board-service/(?<segment>.*), /$\{segment}
             - AuthorizationHeaderFilter
+        - id: transaction-service
+          uri: lb://TRANSACTION-SERVICE
+          predicates:
+            - Path=/transaction-service/**
+          filters:
+            - RewritePath=/transaction-service/(?<segment>.*), /$\{segment}
+            - AuthorizationHeaderFilter

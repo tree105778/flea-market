@@ -51,11 +51,26 @@ public class BoardController {
 
     @GetMapping("/boards")
     public ResponseEntity<CommonResDto<BoardListResDto>> getBoardList(Pageable pageable) {
+        log.info("/boards controller 작동, pageable: {}", pageable);
         BoardListResDto boardList = boardService.getBoardList(pageable);
 
         CommonResDto<BoardListResDto> resDto = new CommonResDto<>(HttpStatus.OK.value(), "게시글 전체 조회 완료", boardList);
 
         return ResponseEntity.ok().body(resDto);
+    }
+
+    @PutMapping("/{boardId}")
+    public Long updateBoardStatus(@PathVariable Long boardId) {
+        return boardService.updateBoardStatus(boardId);
+    }
+
+    @GetMapping("/{userName}/boards")
+    public ResponseEntity<CommonResDto<List<BoardResDto>>> getUserBoardList(@PathVariable String userName) {
+        List<BoardResDto> foundBoard = boardService.getUserBoardList(userName);
+
+        CommonResDto<List<BoardResDto>> resDto = new CommonResDto<>(HttpStatus.OK.value(), "유저 게시글 조회 완료", foundBoard);
+
+        return ResponseEntity.ok(resDto);
     }
 
     @DeleteMapping("/{boardId}")

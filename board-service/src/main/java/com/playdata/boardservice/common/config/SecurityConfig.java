@@ -27,7 +27,8 @@ public class SecurityConfig {
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         http.authorizeHttpRequests(auth -> {
-            auth.requestMatchers(HttpMethod.GET, "/board/{productId}").permitAll()
+            auth.requestMatchers(HttpMethod.GET, "/board/{boardId}").permitAll()
+                    .requestMatchers(HttpMethod.PUT, "/board/{boardId}").permitAll()
                     .requestMatchers("/board/boards").permitAll()
                     .anyRequest().authenticated();
         });

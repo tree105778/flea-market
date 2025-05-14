@@ -77,16 +77,10 @@ public class ProductController {
     }
 
     @PutMapping("/{productId}")
-    public ResponseEntity<ApiResponse<ProductResponseDto>> updateProductToSoldOut(@PathVariable("productId") Long prodId) {
+    public Long updateProductToSoldOut(@PathVariable("productId") Long prodId) {
         ProductResponseDto updatedProduct = productService.updateSoldOut(prodId);
 
-        ApiResponse<ProductResponseDto> response = ApiResponse.<ProductResponseDto>builder()
-                .statusCode(HttpStatus.OK.value())
-                .statusMessage("상품 SOLD_OUT")
-                .result(updatedProduct)
-                .build();
-
-        return ResponseEntity.ok(response);
+        return updatedProduct.getId();
     }
 
     @PostMapping("/create")

@@ -33,6 +33,11 @@ public class Board {
 
     private String userEmail;
 
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
+    @Setter
+    private TradeStatus status = TradeStatus.ON_SALE;
+
     @Lob
     private String content;
 
@@ -65,6 +70,9 @@ public class Board {
         return BoardResDto.builder()
                 .boardId(id)
                 .title(title)
+                .sido(sido)
+                .sigungu(sigungu)
+                .dong(dong)
                 .price(price)
                 .imageUrl(imageUrl)
                 .category(category)

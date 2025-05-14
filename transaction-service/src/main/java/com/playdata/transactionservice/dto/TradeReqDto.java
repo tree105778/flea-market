@@ -9,6 +9,7 @@ import lombok.*;
 @Builder
 public class TradeReqDto {
 
+    private Long boardId;
     private String userName;
-    private Long productId;
+
 }
