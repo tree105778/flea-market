@@ -10,6 +10,7 @@ spring:
           "[/**]":
             allowed-origins:
               - "http://localhost:5173"
+              - "http://flea-market-frontend.s3-website.ap-northeast-2.amazonaws.com"
             allowed-methods:
               - GET
               - POST
