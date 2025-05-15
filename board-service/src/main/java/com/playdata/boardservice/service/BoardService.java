@@ -142,6 +142,6 @@ public class BoardService {
 
         foundBoard.setStatus(TradeStatus.SOLD_OUT);
 
-        return foundBoard.getId();
+        return foundBoard.getProductId();
     }
 }
