@@ -4,10 +4,7 @@ import com.playdata.boardservice.client.ProductServiceClient;
 import com.playdata.boardservice.common.auth.TokenUserInfo;
 import com.playdata.boardservice.common.config.AwsS3Config;
 import com.playdata.boardservice.common.dto.ProductClientDto;
-import com.playdata.boardservice.dto.BoardFormReqDto;
-import com.playdata.boardservice.dto.BoardListResDto;
-import com.playdata.boardservice.dto.BoardResDto;
-import com.playdata.boardservice.dto.DetailBoardResDto;
+import com.playdata.boardservice.dto.*;
 import com.playdata.boardservice.entity.Board;
 import com.playdata.boardservice.entity.BoardTag;
 import com.playdata.boardservice.entity.Tag;
@@ -102,6 +99,13 @@ public class BoardService {
                 () -> new EntityNotFoundException("게시글이 존재하지 않습니다.")
         );
 
+        List<CommentResDto> commentList = foundBoard.getComments()
+                .stream()
+                .map(comment -> new CommentResDto(
+                        comment.getId(), comment.getContent(),
+                        comment.getAuthor(), comment.getCreatedAt()))
+                .toList();
+
         return DetailBoardResDto.builder()
                 .userName(foundBoard.getUserName())
                 .status(foundBoard.getStatus())
@@ -115,13 +119,14 @@ public class BoardService {
                 .category(foundBoard.getCategory())
                 .imageUrl(foundBoard.getImageUrl())
                 .date(foundBoard.getUpdatedAt())
+                .comments(commentList)
                 .build();
     }
 
     public BoardListResDto getBoardList(Pageable pageable) {
         Page<Board> boardList = boardRepository.findAll(pageable);
 
-        for(var board: boardList.getContent()) {
+        for (var board : boardList.getContent()) {
             log.info("board: {}", board.fromEntity());
         }
         return BoardListResDto.builder()

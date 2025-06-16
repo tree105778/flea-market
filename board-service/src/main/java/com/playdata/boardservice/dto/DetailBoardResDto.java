@@ -4,6 +4,7 @@ import com.playdata.boardservice.entity.TradeStatus;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter @Setter
@@ -24,5 +25,8 @@ public class DetailBoardResDto {
     private String category;
     private String imageUrl;
     private LocalDateTime date;
+
+    @Builder.Default
+    private List<CommentResDto> comments = new ArrayList<>();
 
 }

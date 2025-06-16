@@ -27,7 +27,7 @@ public class JwtTokenProvider {
     @Value("${jwt.expirationRt}")
     private int expirationRt;
 
-    public String createToken(String name, String email) {
+    public String createToken(String email, String name) {
         Claims claims = Jwts.claims().setSubject(email);
         claims.put("name", name);
         Date now = new Date();

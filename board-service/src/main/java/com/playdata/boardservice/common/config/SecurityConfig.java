@@ -30,6 +30,7 @@ public class SecurityConfig {
             auth.requestMatchers(HttpMethod.GET, "/board/{boardId}").permitAll()
                     .requestMatchers(HttpMethod.PUT, "/board/{boardId}").permitAll()
                     .requestMatchers("/board/boards").permitAll()
+                    .requestMatchers("/comment/**").authenticated()
                     .anyRequest().authenticated();
         });
 
